@@ -1,13 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeFragment">
+    tools:context=".ui.fragments.HomeFragment">
 
-    <TextView
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/txt_search_term"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_parent"
+        android:layout_marginTop="@dimen/margin_parent"
+        android:text="@string/search_term"
+        android:textColor="@color/purple_700"
+        app:fontFamily="@font/noto_sans_bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/eTxt_term"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_parent"
+        android:layout_marginEnd="@dimen/margin_parent"
+        android:hint="@string/term_hint"
+        app:startIconDrawable="@drawable/restaurant_menu"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_search_term"
+        app:layout_constraintWidth_max="@dimen/max_width">
 
-</FrameLayout>
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapWords"
+            android:background="@drawable/round_corner_txt_input"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/txt_location"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/search_location"
+        android:textColor="@color/purple_700"
+        app:fontFamily="@font/noto_sans_bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eTxt_term" />
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/eTxt_city"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_parent"
+        android:layout_marginEnd="@dimen/margin_parent"
+        android:hint="@string/location_hint"
+        app:startIconDrawable="@drawable/location_place"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_location"
+        app:layout_constraintWidth_max="@dimen/max_width">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapWords"
+            android:background="@drawable/round_corner_txt_input" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/term_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_parent"
+        android:layout_marginTop="@dimen/margin_parent"
+        android:text="@string/submit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eTxt_city" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

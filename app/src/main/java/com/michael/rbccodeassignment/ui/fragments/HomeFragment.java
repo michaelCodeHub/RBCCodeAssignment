@@ -1,4 +1,4 @@
-package com.michael.rbccodeassignment;
+package com.michael.rbccodeassignment.ui.fragments;
 
 import androidx.lifecycle.ViewModelProvider;
 
@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.michael.rbccodeassignment.databinding.HomeFragmentBinding;
+import com.michael.rbccodeassignment.ui.viewmodels.HomeViewModel;
 
 public class HomeFragment extends Fragment {
 

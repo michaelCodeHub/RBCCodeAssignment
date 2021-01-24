@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">RBCCodeAssignment</string>
+    <string name="location_hint">Toronto</string>
+    <string name="term_hint">Food or Starbucks</string>
+    <string name="submit">Search</string>
+    <string name="search_term">Search Term</string>
+    <string name="search_location">Search Location</string>
+    <string name="home_fragment_title">Yelp Assignment</string>
 </resources>

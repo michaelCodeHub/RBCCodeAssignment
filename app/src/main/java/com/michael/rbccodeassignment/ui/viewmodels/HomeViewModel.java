@@ -1,4 +1,4 @@
-package com.michael.rbccodeassignment;
+package com.michael.rbccodeassignment.ui.viewmodels;
 
 import androidx.lifecycle.ViewModel;
 
