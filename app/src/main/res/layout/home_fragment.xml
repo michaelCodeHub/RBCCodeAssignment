@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/eTxt_term"
+        android:id="@+id/eLayout_term"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_parent"
@@ -32,6 +32,7 @@
         app:layout_constraintWidth_max="@dimen/max_width">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/eTxt_term"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textCapWords"
@@ -51,11 +52,11 @@
         app:fontFamily="@font/noto_sans_bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/eTxt_term" />
+        app:layout_constraintTop_toBottomOf="@+id/eLayout_term" />
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/eTxt_city"
+        android:id="@+id/eLayout_city"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_parent"
@@ -67,6 +68,7 @@
         app:layout_constraintWidth_max="@dimen/max_width">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/eTxt_city"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textCapWords"
@@ -75,13 +77,13 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/term_submit"
+        android:id="@+id/button_submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_parent"
         android:layout_marginTop="@dimen/margin_parent"
         android:text="@string/submit"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/eTxt_city" />
+        app:layout_constraintTop_toBottomOf="@+id/eLayout_city" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
