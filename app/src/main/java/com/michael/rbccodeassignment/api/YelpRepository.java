@@ -3,6 +3,7 @@ package com.michael.rbccodeassignment.api;
 import android.util.Log;
 
 import com.michael.rbccodeassignment.R;
+import com.michael.rbccodeassignment.model.CustomList;
 import com.michael.rbccodeassignment.model.Restaurant;
 
 import org.json.JSONArray;
@@ -24,8 +25,7 @@ public class YelpRepository {
     private static YelpRepository single_instance = null;
     private static String TAG = "YelpRepository";
 
-    // Singleton impolementation
-
+    // Singleton implementation
     public static YelpRepository getInstance()
     {
         if (single_instance == null)
@@ -50,7 +50,7 @@ public class YelpRepository {
      * @param sort
      * @return
      */
-    public HashMap<String, ArrayList<Restaurant>> getBusinessItems(
+    public CustomList getBusinessItems(
             int count,
             String term,
             String city,
@@ -67,7 +67,7 @@ public class YelpRepository {
                     "&sort_by="+ sort);
 
             connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestProperty("Authorization","Bearer "+ R.string.api_key);
+            connection.setRequestProperty("Authorization","Bearer "+"mK6YJcOFHaXmg7Hwndj4ITuOONP19tpZgFKOWxhZGltv7_SnEcPNTvrEV3lL11jlpoDg9xaVJ7zyZh4PB_I4SoFJXQFN4uEeZcSpLvMsKMf1SwHyj3fi1fJyAQcHYHYx");
             connection.setRequestProperty("Content-Type","application/json");
             connection.setRequestMethod("GET");
             connection.connect();
@@ -84,9 +84,12 @@ public class YelpRepository {
 
             return validateJson(buffer);
 
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
-        } finally {
+            Log.e(TAG, e.toString());
+        }
+        finally {
             if (connection != null) {
                 connection.disconnect();
             }
@@ -96,19 +99,27 @@ public class YelpRepository {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
+                Log.e(TAG, e.toString());
             }
         }
+
         return null;
     }
 
-    //Handling Json Response
-    private HashMap<String, ArrayList<Restaurant>> validateJson(StringBuilder buffer){
+    /**
+     * Handling Json result from the API
+     * Creating a custom object with two items
+     * HashMap - contains the business item details mapped to the category
+     * ArrayList - contains the list of the cateogories from the sreach
+     */
+    private CustomList validateJson(StringBuilder buffer){
         try
         {
             JSONObject jsonObject = new JSONObject(buffer.toString());
             JSONArray jsonArray = jsonObject.getJSONArray("businesses");
 
-            HashMap<String, ArrayList<Restaurant>> restaurants = new HashMap<>();
+            CustomList customList = new CustomList();
+
             for(int i=0; i< jsonArray.length(); i++){
                 JSONObject jsonRestaurant = jsonArray.getJSONObject(i);
 
@@ -120,26 +131,34 @@ public class YelpRepository {
                 restaurant.setUrl(jsonRestaurant.getString("url"));
                 restaurant.setDisplayPhone(jsonRestaurant.getString("display_phone"));
 
+                //Getting the categories as JsonArray
                 JSONArray categories = jsonRestaurant.getJSONArray("categories");
 
                 for(int j=0; j< categories.length(); j++){
                     JSONObject category = categories.getJSONObject(j);
                     String title = category.getString("title");
 
+                    //Adding category to the list
+                    if(!customList.getCategories().contains(title)){
+                        customList.getCategories().add(title);
+                    }
+
+                    //Adding the restaurant to the hashmap with the category
                     ArrayList<Restaurant> tempRestaurants = new ArrayList<>();
-                    if(restaurants.containsKey(title)){
-                        tempRestaurants = restaurants.get(title);
+                    if(customList.getRestaurants().containsKey(title)){
+                        tempRestaurants = customList.getRestaurants().get(title);
                         tempRestaurants.add(restaurant);
-                        restaurants.replace(title, tempRestaurants);
+                        customList.getRestaurants().replace(title, tempRestaurants);
                     }
                     else{
                         tempRestaurants.add(restaurant);
-                        restaurants.put(title, tempRestaurants);
+                        customList.getRestaurants().put(title, tempRestaurants);
                     }
                 }
-
-                return restaurants;
             }
+
+            return customList;
+
         } catch (Exception jsonException){
             Log.e(TAG, jsonException.toString());
         }

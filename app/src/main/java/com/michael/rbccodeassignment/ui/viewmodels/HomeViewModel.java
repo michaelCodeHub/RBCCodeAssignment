@@ -4,10 +4,12 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.michael.rbccodeassignment.api.YelpRepository;
+import com.michael.rbccodeassignment.model.CustomList;
 import com.michael.rbccodeassignment.model.Restaurant;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class HomeViewModel extends ViewModel {
 
@@ -16,20 +18,38 @@ public class HomeViewModel extends ViewModel {
     private String sort_param = "rating";
     private int count_param = 10;
 
-    private MutableLiveData<Boolean> showSpinner = new MutableLiveData<>(false);
-    private MutableLiveData<HashMap<String, ArrayList<Restaurant>>> restaurants = new MutableLiveData<>();
+    private MutableLiveData<Boolean> showProgressBar;
+    private MutableLiveData<CustomList> results;
+    private HashMap<String, String> sorting_items;
+
+    public void init(){
+        showProgressBar = new MutableLiveData<>(false);
+        results = new MutableLiveData<>();
+        sorting_items = new HashMap<>();
+
+        initializeSortingItems();
+    }
 
     public void searchRestaurants(){
         //show spinner
-        showSpinner.postValue(true);
+        showProgressBar.postValue(true);
         new Thread(() -> {
-            HashMap<String, ArrayList<Restaurant>> businessItems = YelpRepository.getInstance().getBusinessItems
+
+            //Getting the results and post
+            CustomList businessItems = YelpRepository.getInstance().getBusinessItems
                     (count_param ,term_param, city_param, sort_param);
-            restaurants.postValue(businessItems);
+            results.postValue(businessItems);
 
             //stop spinner
-            showSpinner.postValue(false);
+            showProgressBar.postValue(false);
         }).start();
+    }
+
+    private void initializeSortingItems(){
+        sorting_items.put("Rating", "rating");
+        sorting_items.put("Best Match", "best_match");
+        sorting_items.put("Review Count", "review_count");
+        sorting_items.put("Distance", "distance");
     }
 
     public String getTerm_param() {
@@ -53,22 +73,31 @@ public class HomeViewModel extends ViewModel {
     }
 
     public void setSort_param(String sort_param) {
-        this.sort_param = sort_param;
+        this.sort_param = sorting_items.get(sort_param);
     }
 
-    public MutableLiveData<Boolean> getShowSpinner() {
-        return showSpinner;
+    public MutableLiveData<Boolean> getShowProgressBar() {
+        return showProgressBar;
     }
 
-    public void setShowSpinner(MutableLiveData<Boolean> showSpinner) {
-        this.showSpinner = showSpinner;
+    public void setShowProgressBar(MutableLiveData<Boolean> showProgressBar) {
+        this.showProgressBar = showProgressBar;
     }
 
-    public MutableLiveData<HashMap<String, ArrayList<Restaurant>>> getRestaurants() {
-        return restaurants;
+    public MutableLiveData<CustomList> getResults() {
+        return results;
     }
 
-    public void setRestaurants(MutableLiveData<HashMap<String, ArrayList<Restaurant>>> restaurants) {
-        this.restaurants = restaurants;
+    public void setResults(MutableLiveData<CustomList> results) {
+        this.results = results;
+    }
+
+    public List<String> getSorting_items() {
+        List<String> keys = new ArrayList<>(sorting_items.keySet());
+        return keys;
+    }
+
+    public void setSorting_items(HashMap<String, String> sorting_items) {
+        this.sorting_items = sorting_items;
     }
 }

@@ -12,9 +12,6 @@ import androidx.navigation.fragment.NavHostFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
-import com.google.android.material.textfield.TextInputEditText;
 import com.michael.rbccodeassignment.R;
 import com.michael.rbccodeassignment.databinding.HomeFragmentBinding;
 import com.michael.rbccodeassignment.ui.viewmodels.HomeViewModel;
@@ -34,7 +31,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        mViewModel = new ViewModelProvider(getActivity()).get(HomeViewModel.class);
 
         binding.buttonSubmit.setOnClickListener(onSubmitClick);
     }
@@ -42,6 +39,7 @@ public class HomeFragment extends Fragment {
     private final View.OnClickListener onSubmitClick = view -> {
         if(doValidation()){
             // calling to result fragment once the validation passes
+
             NavHostFragment.findNavController(HomeFragment.this)
                     .navigate(R.id.action_homeFragment_to_resultsFragment);
         }
@@ -54,7 +52,7 @@ public class HomeFragment extends Fragment {
             return false;
         }
         else if(binding.eTxtCity.getText() == null || binding.eTxtCity.getText().toString().equals("")){
-            binding.eTxtTerm.setError("Please enter a location");
+            binding.eTxtCity.setError("Please enter a location");
             return false;
         }
         else{
