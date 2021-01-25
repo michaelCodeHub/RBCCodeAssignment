@@ -1,6 +1,13 @@
 package com.michael.rbccodeassignment.ui.viewmodels;
 
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
+import com.michael.rbccodeassignment.api.YelpRepository;
+import com.michael.rbccodeassignment.model.Restaurant;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class HomeViewModel extends ViewModel {
 
@@ -8,6 +15,22 @@ public class HomeViewModel extends ViewModel {
     private String city_param = "toronto";
     private String sort_param = "rating";
     private int count_param = 10;
+
+    private MutableLiveData<Boolean> showSpinner = new MutableLiveData<>(false);
+    private MutableLiveData<HashMap<String, ArrayList<Restaurant>>> restaurants = new MutableLiveData<>();
+
+    public void searchRestaurants(){
+        //show spinner
+        showSpinner.postValue(true);
+        new Thread(() -> {
+            HashMap<String, ArrayList<Restaurant>> businessItems = YelpRepository.getInstance().getBusinessItems
+                    (count_param ,term_param, city_param, sort_param);
+            restaurants.postValue(businessItems);
+
+            //stop spinner
+            showSpinner.postValue(false);
+        }).start();
+    }
 
     public String getTerm_param() {
         return term_param;
@@ -31,5 +54,21 @@ public class HomeViewModel extends ViewModel {
 
     public void setSort_param(String sort_param) {
         this.sort_param = sort_param;
+    }
+
+    public MutableLiveData<Boolean> getShowSpinner() {
+        return showSpinner;
+    }
+
+    public void setShowSpinner(MutableLiveData<Boolean> showSpinner) {
+        this.showSpinner = showSpinner;
+    }
+
+    public MutableLiveData<HashMap<String, ArrayList<Restaurant>>> getRestaurants() {
+        return restaurants;
+    }
+
+    public void setRestaurants(MutableLiveData<HashMap<String, ArrayList<Restaurant>>> restaurants) {
+        this.restaurants = restaurants;
     }
 }

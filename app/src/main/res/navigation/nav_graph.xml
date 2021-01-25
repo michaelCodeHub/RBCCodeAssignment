@@ -9,5 +9,13 @@
         android:id="@+id/homeFragment"
         android:name="com.michael.rbccodeassignment.ui.fragments.HomeFragment"
         android:label="@string/home_fragment_title"
-        tools:layout="@layout/home_fragment" />
+        tools:layout="@layout/home_fragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_resultsFragment"
+            app:destination="@id/resultsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/resultsFragment"
+        android:name="com.michael.rbccodeassignment.ui.fragments.ResultsFragment"
+        android:label="ResultsFragment" />
 </navigation>

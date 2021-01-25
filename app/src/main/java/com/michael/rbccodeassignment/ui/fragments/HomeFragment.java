@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.michael.rbccodeassignment.R;
 import com.michael.rbccodeassignment.databinding.HomeFragmentBinding;
 import com.michael.rbccodeassignment.ui.viewmodels.HomeViewModel;
 
@@ -39,11 +41,13 @@ public class HomeFragment extends Fragment {
 
     private final View.OnClickListener onSubmitClick = view -> {
         if(doValidation()){
-            // Call api with the given items
+            // calling to result fragment once the validation passes
+            NavHostFragment.findNavController(HomeFragment.this)
+                    .navigate(R.id.action_homeFragment_to_resultsFragment);
         }
     };
 
-    //Validating input fields and updateing the viewmodel variables
+    //Validating input fields and updating the viewmodel variables
     private boolean doValidation(){
         if(binding.eTxtTerm.getText() == null || binding.eTxtTerm.getText().toString().equals("")){
             binding.eTxtTerm.setError("Please enter a search term");
