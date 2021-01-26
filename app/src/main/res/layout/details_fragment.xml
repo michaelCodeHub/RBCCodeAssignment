@@ -28,6 +28,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_gravity="center_horizontal"
+        app:cardBackgroundColor="@color/grey"
         app:cardElevation="10dp"
         app:layout_constraintBottom_toTopOf="@+id/h_guide_5"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,7 +47,19 @@
             android:id="@+id/item_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/item_image_description"/>
+
+        <ImageView
+            android:id="@+id/image_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|top"
+            app:tint="@color/white"
+            android:contentDescription="@string/back_button"
+            android:layout_marginLeft="@dimen/margin_parent"
+            android:layout_marginTop="@dimen/margin_parent"
+            app:srcCompat="@drawable/baseline_arrow_back_black_36" />
 
     </com.google.android.material.card.MaterialCardView>
 
@@ -66,6 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="10dp"
+            android:contentDescription="@string/button_call_description"
             app:srcCompat="@drawable/baseline_call_black_36"
             app:tint="@color/white" />
 
@@ -92,8 +106,11 @@
         android:id="@+id/item_rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="@dimen/margin_parent"
+        android:layout_marginTop="8dp"
+        android:isIndicator="true"
+        style="@style/Widget.AppCompat.RatingBar.Indicator"
+        android:progressTint="@color/purple_700"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/item_review" />
 

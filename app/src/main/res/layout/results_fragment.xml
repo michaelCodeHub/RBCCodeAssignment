@@ -6,21 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragments.ResultsFragment">
 
-    <TextView
-        android:id="@+id/search_desc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="@dimen/margin_parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Spinner
         android:id="@+id/spinner_sort"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_parent"
         android:layout_marginEnd="@dimen/margin_parent"
+        android:padding="10dp"
+        android:background="@drawable/round_corner_spinner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -42,7 +35,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_desc" >
+        app:layout_constraintTop_toBottomOf="@+id/spinner_sort" >
 
     </ExpandableListView>
 

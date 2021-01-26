@@ -23,7 +23,7 @@ import java.util.HashMap;
 public class YelpRepository {
 
     private static YelpRepository single_instance = null;
-    private static String TAG = "YelpRepository";
+    private static final String TAG = "YelpRepository";
 
     // Singleton implementation
     public static YelpRepository getInstance()
@@ -131,7 +131,9 @@ public class YelpRepository {
                 restaurant.setUrl(jsonRestaurant.getString("url"));
                 restaurant.setRating(jsonRestaurant.getInt("rating"));
                 restaurant.setReviewCount(jsonRestaurant.getInt("review_count"));
+                restaurant.setDisplayPhone(jsonRestaurant.getString("display_phone"));
 
+                //Getting lat and lon from coordinsates array
                 JSONObject coordinates = jsonRestaurant.getJSONObject("coordinates");
 
                 restaurant.setLatitude(coordinates.getString("latitude"));

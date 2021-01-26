@@ -19,9 +19,9 @@ import java.util.List;
 
 public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
-    private Context context;
-    private List<String> expandableListTitle;
-    private HashMap<String, ArrayList<Restaurant>> expandableListDetail;
+    private final Context context;
+    private final List<String> expandableListTitle;
+    private final HashMap<String, ArrayList<Restaurant>> expandableListDetail;
 
     public CustomExpandableListAdapter(Context context, List<String> expandableListTitle,
                                        HashMap<String, ArrayList<Restaurant>> expandableListDetail) {
@@ -50,7 +50,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.list_item, null);
         }
-        TextView expandedListTextView = (TextView) convertView
+        TextView expandedListTextView = convertView
                 .findViewById(R.id.expandedListItem);
         expandedListTextView.setText(restaurant.getName());
 
@@ -94,7 +94,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
                     getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.list_group, null);
         }
-        TextView listTitleTextView = (TextView) convertView
+        TextView listTitleTextView = convertView
                 .findViewById(R.id.listTitle);
         listTitleTextView.setTypeface(null, Typeface.BOLD);
         listTitleTextView.setText(listTitle+" ("+getChildrenCount(listPosition)+")");

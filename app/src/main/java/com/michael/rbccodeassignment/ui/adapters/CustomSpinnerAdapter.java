@@ -14,8 +14,8 @@ import java.util.List;
 
 public class CustomSpinnerAdapter extends ArrayAdapter<String> {
 
-    private List<String> items;
-    private Context context;
+    private final List<String> items;
+    private final Context context;
 
     public CustomSpinnerAdapter(Context context, List<String> items) {
         super(context, android.R.layout.simple_list_item_1, items);
@@ -47,7 +47,7 @@ public class CustomSpinnerAdapter extends ArrayAdapter<String> {
                     getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.spinner_item, null);
         }
-        TextView lbl = (TextView) convertView.findViewById(R.id.text1);
+        TextView lbl = convertView.findViewById(R.id.text1);
         lbl.setTextColor(Color.BLACK);
         lbl.setText(items.get(position));
         return convertView;

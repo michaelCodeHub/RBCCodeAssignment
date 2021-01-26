@@ -16,7 +16,7 @@ public class HomeViewModel extends ViewModel {
     private String term_param = "food";
     private String city_param = "toronto";
     private String sort_param = "rating";
-    private int count_param = 10;
+    private final int count_param = 10;
 
     private MutableLiveData<Boolean> showProgressBar;
     private MutableLiveData<CustomList> results;

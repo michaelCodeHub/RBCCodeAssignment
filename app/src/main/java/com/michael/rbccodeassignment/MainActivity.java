@@ -1,17 +1,14 @@
 package com.michael.rbccodeassignment;
 
+import android.os.Bundle;
+import android.view.MenuItem;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
 
 import com.michael.rbccodeassignment.databinding.ActivityMainBinding;
 import com.michael.rbccodeassignment.model.Restaurant;
@@ -23,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
     private NavController navController;
+    public static String SERIALIZABLE_KEY = "serializable_key";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void callDetailsFrag(Restaurant restaurant){
         Bundle bundle = new Bundle();
-        bundle.putSerializable("key", restaurant);
+        bundle.putSerializable(SERIALIZABLE_KEY, restaurant);
         navController.navigate(R.id.action_resultsFragment_to_detailsFragment,
                 bundle);
     }

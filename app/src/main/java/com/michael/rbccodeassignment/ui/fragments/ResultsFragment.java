@@ -1,15 +1,17 @@
 package com.michael.rbccodeassignment.ui.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.michael.rbccodeassignment.databinding.ResultsFragmentBinding;
@@ -21,18 +23,17 @@ import com.michael.rbccodeassignment.ui.viewmodels.HomeViewModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 public class ResultsFragment extends Fragment {
 
     private HomeViewModel mViewModel;
     private ResultsFragmentBinding binding;
-    private ArrayList<String> categories = new ArrayList<>();
-    private HashMap<String, ArrayList<Restaurant>> restaurants = new HashMap<>();
+    private final ArrayList<String> categories = new ArrayList<>();
+    private final HashMap<String, ArrayList<Restaurant>> restaurants = new HashMap<>();
     private CustomExpandableListAdapter customExpandableListAdapter;
     private CustomSpinnerAdapter spinnerAdapter;
-
+    private int spinnerCheck;
+    private final int observableCheck = 0;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -46,61 +47,81 @@ public class ResultsFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(getActivity()).get(HomeViewModel.class);
 
-        mViewModel.searchRestaurants();
+        init();
 
         binding.noResults.setVisibility(View.GONE);
+        binding.spinnerSort.setOnItemSelectedListener(spinnerItemClickListener);
 
-        binding.searchDesc.setText("Searching "+ mViewModel.getTerm_param()+" in "+mViewModel.getCity_param());
-
-        setpAdapters();
-
-        mViewModel.getResults().observe(getViewLifecycleOwner(), results -> {
-            handleResults(results);
-            customExpandableListAdapter.notifyDataSetChanged();
+        //Updates the listview
+        mViewModel.getResults().observe(getActivity(), results -> {
+            if(mViewModel.getShowProgressBar().getValue()){
+                handleResults(results);
+                customExpandableListAdapter.notifyDataSetChanged();
+            }
         });
 
-        binding.spinnerSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        //Shows and hides progressbar depends on the mutable data
+        mViewModel.getShowProgressBar().observe(getActivity(), aBoolean -> {
+            if(aBoolean) {
+                binding.progressBar.setVisibility(View.VISIBLE);
+            } else {
+                binding.progressBar.setVisibility(View.GONE);
+            }
+        });
+
+        mViewModel.searchRestaurants();
+    }
+
+    /**
+     * When the user changes the sorting items, the listner
+     * triggers a search api call with the updated sort item
+     */
+    private final AdapterView.OnItemSelectedListener spinnerItemClickListener = new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            if(++spinnerCheck > 1) {
                 mViewModel.setSort_param(mViewModel.getSorting_items().get(position));
                 mViewModel.searchRestaurants();
             }
+        }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
 
-            }
-        });
+        }
+    };
 
-        mViewModel.getShowProgressBar().observe(getActivity(), new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean aBoolean) {
-                if(aBoolean) {
-                    binding.progressBar.setVisibility(View.VISIBLE);
-                } else {
-                    binding.progressBar.setVisibility(View.GONE);
-                }
-            }
-        });
-    }
+    /**
+     * Hiding the keyboard incase if the keyboard was open in the last fragment
+     * Setting up the adapter for listview and the spinner
+     */
+    private void init() {
+        final InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getView().getWindowToken(), 0);
 
-    private void setpAdapters() {
+        ((AppCompatActivity)getActivity()).getSupportActionBar()
+                .setTitle("Searching "+ mViewModel.getTerm_param()+" in "+mViewModel.getCity_param());
+
         customExpandableListAdapter =
                 new CustomExpandableListAdapter(getContext(), categories, restaurants);
         binding.expandableListView.setAdapter(customExpandableListAdapter);
 
         spinnerAdapter = new CustomSpinnerAdapter(getContext(), mViewModel.getSorting_items());
         binding.spinnerSort.setAdapter(spinnerAdapter);
-
-        //Choosing the selection before to stop onItemSelected to execute while listner initialize
-        binding.spinnerSort.setSelection(0,false);
     }
 
+    /**
+     * Clears the existing item in the listview
+     * validates the results
+     * if validation fails then shows the textview with No results found
+     * Otherwise updates the listview
+     * @param results
+     */
     private void handleResults(CustomList results){
         categories.clear();
         restaurants.clear();
 
-        if(results==null || results.getCategories()==null || results.getRestaurants()==null){
+        if(!validateResults(results)){
             binding.noResults.setVisibility(View.VISIBLE);
         }
         else{
@@ -108,6 +129,19 @@ public class ResultsFragment extends Fragment {
             categories.addAll(results.getCategories());
             restaurants.putAll(results.getRestaurants());
         }
+    }
+
+    /**
+     * Return false if there is no data in the results
+     * Return true otherwise
+     * @param results
+     * @return
+     */
+    private boolean validateResults(CustomList results){
+        if(results==null || results.getCategories()==null || results.getRestaurants()==null){
+            return false;
+        }
+        else return results.getRestaurants().size() > 0 || results.getCategories().size() > 0;
     }
 
     @Override
