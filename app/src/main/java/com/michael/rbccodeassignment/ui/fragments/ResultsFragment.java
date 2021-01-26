@@ -48,6 +48,8 @@ public class ResultsFragment extends Fragment {
 
         mViewModel.searchRestaurants();
 
+        binding.noResults.setVisibility(View.GONE);
+
         binding.searchDesc.setText("Searching "+ mViewModel.getTerm_param()+" in "+mViewModel.getCity_param());
 
         setpAdapters();
@@ -98,8 +100,14 @@ public class ResultsFragment extends Fragment {
         categories.clear();
         restaurants.clear();
 
-        categories.addAll(results.getCategories());
-        restaurants.putAll(results.getRestaurants());
+        if(results==null || results.getCategories()==null || results.getRestaurants()==null){
+            binding.noResults.setVisibility(View.VISIBLE);
+        }
+        else{
+            binding.noResults.setVisibility(View.GONE);
+            categories.addAll(results.getCategories());
+            restaurants.putAll(results.getRestaurants());
+        }
     }
 
     @Override

@@ -17,5 +17,13 @@
     <fragment
         android:id="@+id/resultsFragment"
         android:name="com.michael.rbccodeassignment.ui.fragments.ResultsFragment"
-        android:label="ResultsFragment" />
+        android:label="ResultsFragment" >
+        <action
+            android:id="@+id/action_resultsFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.michael.rbccodeassignment.ui.fragments.DetailsFragment"
+        android:label="DetailsFragment" />
 </navigation>

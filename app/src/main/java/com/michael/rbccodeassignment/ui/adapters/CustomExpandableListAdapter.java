@@ -9,6 +9,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
+import com.michael.rbccodeassignment.MainActivity;
 import com.michael.rbccodeassignment.R;
 import com.michael.rbccodeassignment.model.Restaurant;
 
@@ -43,7 +44,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int listPosition, final int expandedListPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
-        final Restaurant expandedListText = (Restaurant) getChild(listPosition, expandedListPosition);
+        final Restaurant restaurant = (Restaurant) getChild(listPosition, expandedListPosition);
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -51,7 +52,15 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         }
         TextView expandedListTextView = (TextView) convertView
                 .findViewById(R.id.expandedListItem);
-        expandedListTextView.setText(expandedListText.getName());
+        expandedListTextView.setText(restaurant.getName());
+
+        expandedListTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Pass REstaurant
+                ((MainActivity)context).callDetailsFrag(restaurant);
+            }
+        });
         return convertView;
     }
 

@@ -1,33 +1,25 @@
 package com.michael.rbccodeassignment.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Restaurant {
+public class Restaurant implements Serializable {
 
     String id;
     String name;
     String imageURL;
     String isClosed;
     String url;
-    ArrayList<String> categories;
-    String displayAddress;
     String displayPhone;
+    int rating;
+    int reviewCount;
+
+    String latitude;
+    String longitude;
 
     public Restaurant(){
 
     }
-
-    public Restaurant(String id, String name, String imageURL, String isClosed, String url, ArrayList<String> categories, String displayAddress, String displayPhone) {
-        this.id = id;
-        this.name = name;
-        this.imageURL = imageURL;
-        this.isClosed = isClosed;
-        this.url = url;
-        this.categories = categories;
-        this.displayAddress = displayAddress;
-        this.displayPhone = displayPhone;
-    }
-
 
     public String getId() {
         return id;
@@ -69,22 +61,6 @@ public class Restaurant {
         this.url = url;
     }
 
-    public ArrayList<String> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(ArrayList<String> categories) {
-        this.categories = categories;
-    }
-
-    public String getDisplayAddress() {
-        return displayAddress;
-    }
-
-    public void setDisplayAddress(String displayAddress) {
-        this.displayAddress = displayAddress;
-    }
-
     public String getDisplayPhone() {
         return displayPhone;
     }
@@ -94,4 +70,35 @@ public class Restaurant {
     }
 
 
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
+    public int getReviewCount() {
+        return reviewCount;
+    }
+
+    public void setReviewCount(int reviewCount) {
+        this.reviewCount = reviewCount;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
 }

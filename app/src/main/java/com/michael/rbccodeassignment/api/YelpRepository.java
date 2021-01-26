@@ -129,7 +129,13 @@ public class YelpRepository {
                 restaurant.setImageURL(jsonRestaurant.getString("image_url"));
                 restaurant.setIsClosed(jsonRestaurant.getString("is_closed"));
                 restaurant.setUrl(jsonRestaurant.getString("url"));
-                restaurant.setDisplayPhone(jsonRestaurant.getString("display_phone"));
+                restaurant.setRating(jsonRestaurant.getInt("rating"));
+                restaurant.setReviewCount(jsonRestaurant.getInt("review_count"));
+
+                JSONObject coordinates = jsonRestaurant.getJSONObject("coordinates");
+
+                restaurant.setLatitude(coordinates.getString("latitude"));
+                restaurant.setLongitude(coordinates.getString("longitude"));
 
                 //Getting the categories as JsonArray
                 JSONArray categories = jsonRestaurant.getJSONArray("categories");
