@@ -6,12 +6,14 @@
     <string name="search_term">Search Term</string>
     <string name="search_location">Search Location</string>
     <string name="home_fragment_title">Yelp Assignment</string>
-
-    <string name="api_key">mK6YJcOFHaXmg7Hwndj4ITuOONP19tpZgFKOWxhZGltv7_SnEcPNTvrEV3lL11jlpoDg9xaVJ7zyZh4PB_I4SoFJXQFN4uEeZcSpLvMsKMf1SwHyj3fi1fJyAQcHYHYx</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="no_results">No Results Found!!!</string>
+    <string name="no_results">No Results Found!!! \nPlease check your internet.</string>
     <string name="button_call_description">Button to make the Call</string>
     <string name="item_image_description">Restaurant Image from URL</string>
     <string name="back_button">Back button</string>
+    <string name="refresh">Refresh</string>
+    <string name="link_button">Link Button</string>
+    <string name="map_button">Map Button</string>
+    <string name="title">Title</string>
+    <string name="review">Review</string>
+    <string name="sort_by">Sort By:</string>
 </resources>

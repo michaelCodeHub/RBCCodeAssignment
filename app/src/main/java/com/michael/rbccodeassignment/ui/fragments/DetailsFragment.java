@@ -16,7 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.michael.rbccodeassignment.MainActivity;
 import com.michael.rbccodeassignment.databinding.DetailsFragmentBinding;
 import com.michael.rbccodeassignment.model.Restaurant;
-import com.michael.rbccodeassignment.ui.viewmodels.HomeViewModel;
+import com.michael.rbccodeassignment.ui.viewmodels.ActivityViewModel;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -24,7 +24,7 @@ import java.util.Objects;
 
 public class DetailsFragment extends Fragment {
 
-    private HomeViewModel mViewModel;
+    private ActivityViewModel mViewModel;
     private DetailsFragmentBinding binding;
     private Restaurant restaurant;
 
@@ -39,12 +39,12 @@ public class DetailsFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(getActivity()).get(HomeViewModel.class);
+        mViewModel = new ViewModelProvider(getActivity()).get(ActivityViewModel.class);
 
         //Hiding the actionbar
         Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).hide();
 
-        //GEtting the restauarant object from the arguments
+        //GGetting the restaurant object from the arguments
         restaurant = (Restaurant) getArguments().getSerializable(
                 MainActivity.SERIALIZABLE_KEY);
 
@@ -75,7 +75,7 @@ public class DetailsFragment extends Fragment {
             (getActivity()).onBackPressed();
         });
 
-        //Image loader for restaruant image from url
+        //Image loader for restaurant image from url
         Picasso.get()
                 .load(restaurant.getImageURL())
                 .into(binding.itemImage, new Callback() {

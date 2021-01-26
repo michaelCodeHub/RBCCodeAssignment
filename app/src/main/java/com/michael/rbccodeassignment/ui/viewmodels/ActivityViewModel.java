@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class HomeViewModel extends ViewModel {
+public class ActivityViewModel extends ViewModel {
 
     private String term_param = "food";
     private String city_param = "toronto";
@@ -19,11 +19,13 @@ public class HomeViewModel extends ViewModel {
     private final int count_param = 10;
 
     private MutableLiveData<Boolean> showProgressBar;
+    private MutableLiveData<Boolean> showNoResult;
     private MutableLiveData<CustomList> results;
     private HashMap<String, String> sorting_items;
 
     public void init(){
         showProgressBar = new MutableLiveData<>(false);
+        showNoResult = new MutableLiveData<>(false);
         results = new MutableLiveData<>();
         sorting_items = new HashMap<>();
 
@@ -38,7 +40,12 @@ public class HomeViewModel extends ViewModel {
             //Getting the results and post
             CustomList businessItems = YelpRepository.getInstance().getBusinessItems
                     (count_param ,term_param, city_param, sort_param);
-            results.postValue(businessItems);
+            if(businessItems == null){
+                showNoResult.postValue(true);
+            }else{
+                showNoResult.postValue(false);
+                results.postValue(businessItems);
+            }
 
             //stop spinner
             showProgressBar.postValue(false);
@@ -99,5 +106,13 @@ public class HomeViewModel extends ViewModel {
 
     public void setSorting_items(HashMap<String, String> sorting_items) {
         this.sorting_items = sorting_items;
+    }
+
+    public MutableLiveData<Boolean> getShowNoResult() {
+        return showNoResult;
+    }
+
+    public void setShowNoResult(Boolean showNoResult) {
+        this.showNoResult.postValue(showNoResult);
     }
 }

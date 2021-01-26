@@ -57,7 +57,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         expandedListTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Pass REstaurant
+                //Pass Restaurant
                 ((MainActivity)context).callDetailsFrag(restaurant);
             }
         });
@@ -100,6 +100,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         listTitleTextView.setText(listTitle+" ("+getChildrenCount(listPosition)+")");
 
 
+        //Making expandable view static as per the requirement
         ExpandableListView mExpandableListView = (ExpandableListView) parent;
         mExpandableListView.expandGroup(listPosition);
 

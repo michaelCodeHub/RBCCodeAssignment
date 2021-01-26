@@ -12,11 +12,11 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.michael.rbccodeassignment.databinding.ActivityMainBinding;
 import com.michael.rbccodeassignment.model.Restaurant;
-import com.michael.rbccodeassignment.ui.viewmodels.HomeViewModel;
+import com.michael.rbccodeassignment.ui.viewmodels.ActivityViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
-    private HomeViewModel mViewModel;
+    private ActivityViewModel mViewModel;
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
     private NavController navController;
@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        mViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(ActivityViewModel.class);
         mViewModel.init();
 
         navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);

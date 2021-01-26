@@ -19,21 +19,21 @@ import com.michael.rbccodeassignment.model.CustomList;
 import com.michael.rbccodeassignment.model.Restaurant;
 import com.michael.rbccodeassignment.ui.adapters.CustomExpandableListAdapter;
 import com.michael.rbccodeassignment.ui.adapters.CustomSpinnerAdapter;
-import com.michael.rbccodeassignment.ui.viewmodels.HomeViewModel;
+import com.michael.rbccodeassignment.ui.viewmodels.ActivityViewModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class ResultsFragment extends Fragment {
 
-    private HomeViewModel mViewModel;
+    private ActivityViewModel mViewModel;
     private ResultsFragmentBinding binding;
-    private final ArrayList<String> categories = new ArrayList<>();
+    private ArrayList<String> categories = new ArrayList<>();
     private final HashMap<String, ArrayList<Restaurant>> restaurants = new HashMap<>();
     private CustomExpandableListAdapter customExpandableListAdapter;
     private CustomSpinnerAdapter spinnerAdapter;
-    private int spinnerCheck;
-    private final int observableCheck = 0;
+    private int spinnerCheck = 0;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -45,12 +45,18 @@ public class ResultsFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(getActivity()).get(HomeViewModel.class);
+        mViewModel = new ViewModelProvider(getActivity()).get(ActivityViewModel.class);
+
+        //Show the actionbar
+        Objects.requireNonNull(((AppCompatActivity) getActivity()).getSupportActionBar()).show();
 
         init();
 
-        binding.noResults.setVisibility(View.GONE);
         binding.spinnerSort.setOnItemSelectedListener(spinnerItemClickListener);
+
+        binding.buttonRefresh.setOnClickListener(view ->{
+            mViewModel.searchRestaurants();
+        });
 
         //Updates the listview
         mViewModel.getResults().observe(getActivity(), results -> {
@@ -66,6 +72,16 @@ public class ResultsFragment extends Fragment {
                 binding.progressBar.setVisibility(View.VISIBLE);
             } else {
                 binding.progressBar.setVisibility(View.GONE);
+            }
+        });
+
+        mViewModel.getShowNoResult().observe(getActivity(), aBoolean -> {
+            if(aBoolean) {
+                binding.noResults.setVisibility(View.VISIBLE);
+                binding.buttonRefresh.setVisibility(View.VISIBLE);
+            } else {
+                binding.noResults.setVisibility(View.GONE);
+                binding.buttonRefresh.setVisibility(View.GONE);
             }
         });
 
@@ -115,17 +131,16 @@ public class ResultsFragment extends Fragment {
      * validates the results
      * if validation fails then shows the textview with No results found
      * Otherwise updates the listview
-     * @param results
      */
     private void handleResults(CustomList results){
         categories.clear();
         restaurants.clear();
 
         if(!validateResults(results)){
-            binding.noResults.setVisibility(View.VISIBLE);
+            mViewModel.setShowNoResult(true);
         }
         else{
-            binding.noResults.setVisibility(View.GONE);
+            mViewModel.setShowNoResult(false);
             categories.addAll(results.getCategories());
             restaurants.putAll(results.getRestaurants());
         }
@@ -134,20 +149,26 @@ public class ResultsFragment extends Fragment {
     /**
      * Return false if there is no data in the results
      * Return true otherwise
-     * @param results
-     * @return
+     * @param results CustomList contains both hashmap and list
+     * @return boolean
      */
     private boolean validateResults(CustomList results){
-        if(results==null || results.getCategories()==null || results.getRestaurants()==null){
+        if(results.getCategories()==null || results.getRestaurants()==null){
             return false;
         }
-        else return results.getRestaurants().size() > 0 || results.getCategories().size() > 0;
+        else return results.getRestaurants().size() > 0 && results.getCategories().size() > 0;
     }
 
+    /**
+     * Clear/Remove the observers to stop memory leaks
+     */
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mViewModel.getShowProgressBar().removeObservers(getActivity());
-        mViewModel.getResults().removeObservers(getActivity());
+        if(mViewModel!=null){
+            mViewModel.getShowProgressBar().removeObservers(getActivity());
+            mViewModel.getResults().removeObservers(getActivity());
+            mViewModel.getShowNoResult().removeObservers(getActivity());
+        }
     }
 }

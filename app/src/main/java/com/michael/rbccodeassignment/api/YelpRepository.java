@@ -2,12 +2,10 @@ package com.michael.rbccodeassignment.api;
 
 import android.util.Log;
 
-import com.michael.rbccodeassignment.R;
 import com.michael.rbccodeassignment.model.CustomList;
 import com.michael.rbccodeassignment.model.Restaurant;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -15,15 +13,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class YelpRepository {
 
     private static YelpRepository single_instance = null;
     private static final String TAG = "YelpRepository";
+    private static final String API_KEY = "mK6YJcOFHaXmg7Hwndj4ITuOONP19tpZgFKOWxhZGltv7_SnEcPNTvrEV3lL11jlpoDg9xaVJ7zyZh4PB_I4SoFJXQFN4uEeZcSpLvMsKMf1SwHyj3fi1fJyAQcHYHYx";
 
     // Singleton implementation
     public static YelpRepository getInstance()
@@ -67,7 +64,7 @@ public class YelpRepository {
                     "&sort_by="+ sort);
 
             connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestProperty("Authorization","Bearer "+"mK6YJcOFHaXmg7Hwndj4ITuOONP19tpZgFKOWxhZGltv7_SnEcPNTvrEV3lL11jlpoDg9xaVJ7zyZh4PB_I4SoFJXQFN4uEeZcSpLvMsKMf1SwHyj3fi1fJyAQcHYHYx");
+            connection.setRequestProperty("Authorization","Bearer "+ API_KEY);
             connection.setRequestProperty("Content-Type","application/json");
             connection.setRequestMethod("GET");
             connection.connect();
