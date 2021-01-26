@@ -65,10 +65,9 @@ public class DetailsFragment extends Fragment {
         });
 
         binding.buttonMap.setOnClickListener(view -> {
-            Uri gmmIntentUri = Uri.parse("geo:"+restaurant.getLatitude()+","+restaurant.getLongitude());
-            Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-            mapIntent.setPackage("com.google.android.apps.maps");
-            startActivity(mapIntent);
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/maps/search/?api=1&query=" +
+                    ""+ restaurant.getLatitude()+","+restaurant.getLongitude()));
+            startActivity(browserIntent);
         });
 
         binding.imageBack.setOnClickListener(view -> {
